@@ -3,14 +3,11 @@ import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-interface NoteCardProps {
-  note: {
-    title: string;
-    content: string;
-  };
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void;
 }
 
-export function NewNoteCard({ note }: NoteCardProps) {
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
   const [content, setContent] = useState("");
 
@@ -31,15 +28,20 @@ export function NewNoteCard({ note }: NoteCardProps) {
 
   function handleSaveNote(event: FormEvent) {
     event.preventDefault();
-    localStorage.setItem("note", content);
+    onNoteCreated(content);
     toast.success("Nota criada com sucesso");
   }
 
   return (
     <Dialog.Root>
       <Dialog.Trigger className="rounded-md outline-none text-left flex flex-col bg-slate-800 p-5 gap-y-3 overflow-hidden relative  hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
-        <span className="text-sm font-medium text-slate-200">{note.title}</span>
-        <p className="text-sm leading-6 text-slate-400">{note.content}</p>
+        <span className="text-sm font-medium text-slate-200">
+          Adicionar nota
+        </span>
+        <p className="text-sm leading-6 text-slate-400">
+          Grave uma nota em áudio que será convertida para texto
+          automaticamente.
+        </p>
       </Dialog.Trigger>
 
       <Dialog.Portal>
